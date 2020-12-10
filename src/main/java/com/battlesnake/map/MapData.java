@@ -1,6 +1,8 @@
 package com.battlesnake.map;
 
+import com.battlesnake.models.Snake;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 public class MapData {
   public int[][] map = new int[11][11];
@@ -15,8 +17,8 @@ public class MapData {
 
   public void fillMap(JsonNode moveRequest) {
     resetMap();
-    // TODO parse json here
-   Snake  moveRequest.get("board").get("snakes");
+    
+    JsonNodeType node = moveRequest.get("board").get("snakes").getNodeType();
 
     for () {
 
