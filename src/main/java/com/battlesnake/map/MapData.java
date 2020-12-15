@@ -2,6 +2,8 @@ package com.battlesnake.map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.battlesnake.enums.GameBoardObjects;
+
 
 public class MapData {
 
@@ -17,10 +19,6 @@ public class MapData {
 
   public void fillMap(JsonNode moveRequest) {
     resetMap();
-
-    // for (JsonNode snake : snakes) {
-
-    // }
   
     JsonNode board = moveRequest.get("board");
     ArrayNode snakesArrayNode = (ArrayNode) board.get("snakes");
@@ -30,22 +28,20 @@ public class MapData {
     JsonNode coordinate;
     JsonNode snakeHead;
 
-    // Gets the snakes 
+    // Gets the snakes
     for (int i = 0; i < snakesArrayNode.size(); i++) {
       snake = snakesArrayNode.get(i);
       snakeBody = (ArrayNode) snake.get("body");
       
-      // Gets the snake's bodies 
+      // Gets the snake's bodies
       for (int j = 0; j < snakeBody.size(); j++) {
         coordinate = snakeBody.get(j);
-        // TODO change number assignment to enum value
         // Gets the x and y coordinates of the body and places it into the array
-        map[coordinate.get("x").asInt()][coordinate.get("y").asInt()] = 2;
+        map[coordinate.get("x").asInt()][coordinate.get("y").asInt()] = GameBoardObjects.OBSTACLE.getValue();
       }
       snakeHead = snake.get("head");
-      // TODO change number assignment to enum value
       // Gets the x and y coordinates of snake head and places it into the array
-      map[snakeHead.get("x").asInt()][snakeHead.get("y").asInt()] = 1;
+      map[snakeHead.get("x").asInt()][snakeHead.get("y").asInt()] = GameBoardObjects.SNAKE_HEAD.getValue();
     }
 
     ArrayNode foodArrayNode = (ArrayNode) board.get("food");
@@ -55,43 +51,20 @@ public class MapData {
     for (int i = 0; i < foodArrayNode.size(); i++) {
       food = foodArrayNode.get(i);
       // Gets the x and y coordinates of the food and places it into the array
-      map[food.get("x").asInt()][food.get("y").asInt()] = 3;
+      map[food.get("x").asInt()][food.get("y").asInt()] = GameBoardObjects.FOOD.getValue();
     }
 
     JsonNode you = moverequest.get("you");
     JsonNode youHead = you.get("head");
     // Gets the x and y coordinates of our snake head and places it into the array
-    map[youHead.get("x").asInt()][youHead.get("y").asInt()] = 4;
-    
-    
-  
-  
-  
-  
-    // if(snakes.isArray) {
-    //   ArrayNode arrayNode = (ArrayNode) root;
-    //   for int i = 0; i < arrayNode.size(); i++) {
-    //     JsonNode arrayElement = arrayNode.get(i);
-    //     traverse(arrayElement);
-    //   }
-    // }
-
-
+    map[youHead.get("x").asInt()][youHead.get("y").asInt()] = GameBoardObjects.OUR_HEAD.getValue();
+    }
   }
 
   public int getMapCoordinate(int x, int y) {
     return map[x][y];
   }
 }
-
-
-/*
-  Example how to retrieve data from the request payload:
-
-  String gameId = moveRequest.get("game").get("id").asText();
-  int height = moveRequest.get("board").get("height").asInt();
-
-*/
 
 /*
 JsonNode example = {
