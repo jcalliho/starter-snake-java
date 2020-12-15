@@ -58,7 +58,7 @@ public class MapData {
       map[food.get("x").asInt()][food.get("y").asInt()] = 3;
     }
 
-    JsonNode you = moverequest.get("you");
+    JsonNode you = moveRequest.get("you");
     JsonNode youHead = you.get("head");
     // Gets the x and y coordinates of our snake head and places it into the array
     map[youHead.get("x").asInt()][youHead.get("y").asInt()] = 4;
