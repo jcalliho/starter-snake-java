@@ -14,5 +14,5 @@ public enum GameBoardObjects {
 
   public int getValue() {
         return value;
-    }
+  }
 }
