@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.battlesnake.enums.GameBoardObjects;
 
+
 public class MapData {
 
   public int[][] map = new int[11][11];
