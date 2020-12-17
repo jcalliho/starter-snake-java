@@ -10,7 +10,6 @@ import spark.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import com.battlesnake.map.MapData;
 import com.battlesnake.starter.Adjacent;
@@ -30,7 +29,6 @@ public class Snake {
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
     private static final Handler HANDLER = new Handler();
     private static final Logger LOG = LoggerFactory.getLogger(Snake.class);
-    public static MapData mapData = new MapData();
 
     /**
      * Main entry point.
@@ -107,7 +105,7 @@ public class Snake {
         public Map<String, String> index() {
             Map<String, String> response = new HashMap<>();
             response.put("apiversion", "1");
-            response.put("author", "");           // TODO: Your Battlesnake Username
+            response.put("author", "Blind Snake");           // TODO: Your Battlesnake Username
             response.put("color", "#888888");     // TODO: Personalize
             response.put("head", "default");  // TODO: Personalize
             response.put("tail", "default");  // TODO: Personalize
@@ -146,7 +144,6 @@ public class Snake {
                 e.printStackTrace();
             } 
 
-            mapData.fillMap(moveRequest);
 
             /*
                 Example how to retrieve data from the request payload:
@@ -155,13 +152,14 @@ public class Snake {
                 int height = moveRequest.get("board").get("height").asInt();
             */
 
-            String[] possibleMoves = { "up", "down", "left", "right" };
+            
 
-            Adjacent adjacent = new Adjacent();
+            MapData map = new MapData(moveRequest);
+            Adjacent adjacent = new Adjacent(map);
 
-            // Choose a random direction to move in
-            int choice = new Random().nextInt(possibleMoves.length);
-            String move = possibleMoves[choice];
+            String move = adjacent.getMove(); 
+
+            // Choose a random direction to move i
 
 			      // log the chosen move to the console
             LOG.info("MOVE {}", move);
