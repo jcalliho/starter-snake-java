@@ -2,6 +2,9 @@ package com.battlesnake.map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import javax.xml.stream.events.EndElement;
+
 import com.battlesnake.enums.GameBoardObjects;
 import com.battlesnake.starter.Point;
 
@@ -24,6 +27,8 @@ public class MapData {
     JsonNode snake;
     JsonNode coordinate;
     JsonNode snakeHead;
+    int enemyHeadX;
+    int enemyHeadY;
 
     // Gets the snakes
     for (int i = 0; i < snakesArrayNode.size(); i++) {
@@ -39,6 +44,23 @@ public class MapData {
       snakeHead = snake.get("head");
       // Gets the x and y coordinates of snake head and places it into the array
       map[snakeHead.get("x").asInt()][snakeHead.get("y").asInt()] = GameBoardObjects.SNAKE_HEAD;
+      enemyHeadX = snakeHead.get("x").asInt();
+      enemyHeadY = snakeHead.get("y").asInt();
+      map[enemyHeadX][enemyHeadY] = GameBoardObjects.SNAKE_HEAD;
+
+      // avoid squares that the enemy snake may move into next turn
+      if(enemyHeadX > 0) {
+        map[enemyHeadX - 1][enemyHeadY] = GameBoardObjects.OBSTACLE;
+      }
+      if(enemyHeadX < 10) {
+        map[enemyHeadX + 1][enemyHeadY] = GameBoardObjects.OBSTACLE;
+      }
+      if(enemyHeadY > 0) {
+        map[enemyHeadX][enemyHeadY - 1] = GameBoardObjects.OBSTACLE;
+      }
+      if(enemyHeadY < 10) {
+        map[enemyHeadX][enemyHeadY + 1] = GameBoardObjects.OBSTACLE;
+      }
     }
 
     ArrayNode foodArrayNode = (ArrayNode) board.get("food");
